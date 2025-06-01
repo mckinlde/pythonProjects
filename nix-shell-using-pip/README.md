@@ -9,9 +9,10 @@ cd ~/micrograd/nix-shell-using-pip
 ```
 
 run ./nix-shell-using-pip-demo.sh to test:
+(note: can use flag for any python version, default to python3)
 ```bash
 chmod +x ~/nix-shell-using-pip-demo.sh
-./nix-shell-using-pip-demo.sh
+./nix-shell-using-pip-demo.sh python311
 ```
 
 use nix-shell to run python scripts:
