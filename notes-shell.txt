@@ -1,0 +1,47 @@
+# Background: https://www.youtube.com/watch?v=6fftiTJ2vuQ
+# I want to develop a flake that can ignore the system-level packages,
+# effectively re-implementing the behavior of python's virtualenv, but with the 
+# distinct advantage of being declaratively reproducible.  Where virtualenv 
+# behaves like a docker image or Amazon Machine Image, and forces the user to
+# never, ever lose their .iso or Dockerfile, and beg at the altar of virtual 
+# machines, a flake.nix will allow me to build packages from config, meaning 
+# that as packages are updated, I will be able to rebuild deterministically.
+
+{ pkgs ? import <nixpkgs> {} }:
+
+# because we're using .withPackages, we can parameterize the python version.
+let
+  which-python = "python3";
+in
+pkgs.mkShell {  
+# The easiest way to expose packages installed in nix/store to Python is with a nix shell
+
+  packages = [
+    # extend the environment of python to include any packages we need
+    # @Param: python
+    # @Return: an array of packages to install alongside python
+    (pkgs.${which-python}.withPackages(pypkgs: with pypkgs; [
+      numpy
+      requests
+      pandas
+    ]))
+  ];
+
+# In NixOS, every package you install is in the nix/store, where most UNIX 
+# systems keep packages in /lib or /usr/lib.  To install python packages with 
+# pip, we have to remap the typical UNIX lib directories, all of which
+# are exposed to your user environment by default, to the nix/store, which 
+# sandboxes all programs and libraries away from each other, allowing you to 
+# install several versions of anything, and keeping your user environment clean.
+# [source](https://youtu.be/6fftiTJ2vuQ?si=SyixwzYXxvVbaPBK&t=147)
+
+# Put simply, to get numpy to work while managing our python packages at the 
+# system level instead of with a flake.nix, we have to add its libraries to the 
+# library path
+  env.LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ 
+  # these are the most common
+   pkgs.stdenv.cc.cc.lib
+   pkgs.libz
+  ];
+  
+}
