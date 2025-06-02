@@ -1,3 +1,15 @@
+On further reflection, I think that not even Nix can fix python's pagake management hell.
+
+At least I can reliably use venv, and if your python project uses venv, then I'll expect I can run it on NixOS.
+
+run with:
+~/using-python-without-relying-on-nix/nix-shell-using-pip/nix-shell-using-pip-demo.sh
+
+README.md:
+~/using-python-without-relying-on-nix/nix-shell-using-pip/README.md
+
+=====
+
 If you wanna skip to the good part, the nix-shell for python development with nix package management is in:
 
 using-python-with-nix-dependency-management/nix-shell-with-pip2nix/shell.nix
