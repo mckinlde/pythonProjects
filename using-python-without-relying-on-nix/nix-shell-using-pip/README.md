@@ -21,7 +21,7 @@ use nix-shell to run python scripts:
 - 'exit' to exit nix-shell)
 ```bash
 nix-shell
-source ./venv/bin/activate # Activate devshell every time you nix-shell
+source ./venv/bin/activate # Activate venv every time you nix-shell
 python numpy-demo.py
 exit
 ```
@@ -30,7 +30,7 @@ and enter the nix-shell to use python manually:
 (note: ctrl+D to exit python in nix-shell)
 ```bash
 nix-shell
-source ./venv/bin/activate # Activate devshell every time you nix-shell
-# you'll be able to launch Python without venv, but you won't be able to use pip
+source ./venv/bin/activate # Activate venv every time you nix-shell
+# you'll be able to launch Python without venv, but you won't be able to use pip, and you won't have any of your modules
 python
 ```
