@@ -1,0 +1,1 @@
+Now let's use python with Nix's package manager instead of Python's (many) package managers.
