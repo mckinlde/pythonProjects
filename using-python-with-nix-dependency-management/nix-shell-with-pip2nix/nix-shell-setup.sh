@@ -4,7 +4,7 @@
 #nix run github:nix-community/pip2nix -- generate requests
 
 # or, more commonly, call pip2nix to generate packages from requirements.txt
-nix run github:nix-community/pip2nix -- ./requirements.txt
+nix run github:nix-community/pip2nix -- generate -r ./requirements.txt
 
 # A cool example with a nix-shell
 #nix shell github:nix-community/pip2nix
@@ -19,12 +19,7 @@ python_version=${1:-python3}  # Use first CLI arg, or default to python3
 
 echo "1) activate nix shell with $python_version..."
 nix-shell --argstr python_version "$python_version" --run '
-    echo "2) create virtualenv..."
-    python -m venv ./venv
-    echo "3) activate virtualenv..."
-    source ./venv/bin/activate
-    echo "4) use pip to install numpy..."
-    python -m pip install numpy
     echo "5) run numpy demo..."
     python numpy-demo.py
 '
+# No VirtualEnv!  No Pip!  We're using Nix to manage pypi packages!

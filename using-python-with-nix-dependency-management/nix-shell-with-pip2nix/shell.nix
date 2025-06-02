@@ -3,14 +3,15 @@
 
 let # use the pip2nix command to generate python-packages.nix
   packageOverrides = pkgs.callPackage ./python-packages.nix {};
-  python = pkgs.python3.override { inherit packageOverrides }
+  python = pkgs.${python_version}.override { inherit packageOverrides; };
+in
 pkgs.mkShell {  
-  packages = with pkgs; [
+  packages = [
     # use python.withPackages to extend the env of python
     # to include any packages we may need fron nixPackages
     # @Param: python
     # @Return: array of packages it needs
-    (${python_version}.withPackpages(pypkgs: [ ])
+    pkgs.${python_version}.withPackages(pypkgs: [ pypkgs.requests ])
   ];
   # Notice!  We aren't worried about dependencies, libraries, or venv!
 }

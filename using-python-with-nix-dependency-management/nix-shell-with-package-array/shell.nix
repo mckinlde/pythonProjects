@@ -4,7 +4,7 @@
 let
   # use the pip2nix command to generate python-packages.nix
   packageOverrides = pkgs.callPackage ./python-packages.nix {};
-  python = pkgs.${python_version}.override { inherit packageOverrides }
+  python = pkgs.${python_version}.override { inherit packageOverrides; };
 in
 pkgs.mkShell {  
   packages = [
@@ -12,7 +12,7 @@ pkgs.mkShell {
     # to include any packages we may need fron nixPackages
     # @Param: python
     # @Return: array of packages it needs
-    pkgs.${python_version}.withPackpages(pypkgs: with pypkgs[
+    pkgs.${python_version}.withPackages(pypkgs: with pypkgs[
       numpy
       requests
       pandas
